@@ -32,13 +32,6 @@ resource "aws_s3_bucket_ownership_controls" "this" {
   }
 }
 
-resource "aws_s3_bucket_acl" "this" {
-  depends_on = [aws_s3_bucket_ownership_controls.this]
-  bucket     = aws_s3_bucket.this.id
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-}
 
 resource "aws_s3_bucket_versioning" "this" {
   bucket = aws_s3_bucket.this.id
@@ -90,7 +83,7 @@ module "mwaa" {
   source = "../.."
 
   name              = var.name
-  airflow_version   = "2.2.2"
+  airflow_version   = "2.10.3"
   environment_class = "mw1.medium"
   create_s3_bucket  = false
   source_bucket_arn = aws_s3_bucket.this.arn
